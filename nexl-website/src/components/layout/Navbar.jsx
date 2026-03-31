@@ -14,19 +14,17 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false) }, [pathname])
 
   const isHome = pathname === '/'
 
   return (
     <>
-      {/* 1. Top Bar - Hidden on small mobile to save space */}
       <div style={{ 
         background: '#071528', 
         color: 'rgba(255,255,255,0.5)', 
-        fontSize: '11px', 
-        padding: '8px 0',
+        fontSize: '12px', 
+        padding: '10px 0',
         borderBottom: '1px solid rgba(255,255,255,0.05)'
       }}>
         <div className="container" style={{ 
@@ -51,44 +49,50 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* 2. Main Navigation */}
       <nav style={{
         position: 'sticky', 
         top: 0, 
         zIndex: 100,
-        background: scrolled || !isHome ? '#071528' : 'rgba(7,21,40,0.85)',
-        backdropFilter: 'blur(12px)',
+        background: scrolled || !isHome ? '#071528' : 'rgba(7,21,40,0.9)',
+        backdropFilter: 'blur(15px)',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
-        transition: 'all 0.3s ease',
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
       }}>
         <div className="container" style={{ 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between', 
-          height: scrolled ? '64px' : '72px',
+          // Increased height for a more "grand" feel
+          height: scrolled ? '80px' : '100px',
           padding: '0 20px',
-          transition: 'height 0.3s ease'
+          transition: 'height 0.4s ease'
         }}>
 
-          {/* Logo with White Badge Fix */}
+          {/* Logo - Significantly Larger */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
             <div style={{ 
               background: '#fff', 
-              padding: '4px 8px', 
-              borderRadius: '6px',
+              padding: '6px 12px', 
+              borderRadius: '8px',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
             }}>
               <img
                 src="/images/nexl_logo.jpeg"
                 alt="NEXL"
-                style={{ height: scrolled ? '32px' : '38px', width: 'auto', transition: 'height 0.3s' }}
+                style={{ 
+                  // Scaled up height from 38px to 54px/42px
+                  height: scrolled ? '42px' : '54px', 
+                  width: 'auto', 
+                  transition: 'height 0.4s ease' 
+                }}
               />
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }} className="desktop-nav">
+          {/* Desktop Navigation Links - Bigger Font & More Spacing */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="desktop-nav">
             {NAV_LINKS.map((link) => {
               const active = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
               return (
@@ -96,13 +100,23 @@ export default function Navbar() {
                   key={link.href}
                   to={link.href}
                   style={{
-                    padding: '8px 14px',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    fontWeight: 600,
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    // Increased from 14px to 16px
+                    fontSize: '16px',
+                    fontWeight: 700,
                     textDecoration: 'none',
-                    color: active ? '#F97316' : 'rgba(255,255,255,0.7)',
-                    transition: 'all 0.2s',
+                    color: active ? '#F97316' : 'rgba(255,255,255,0.85)',
+                    transition: 'all 0.3s ease',
+                    letterSpacing: '0.3px'
+                  }}
+                  onMouseEnter={(e) => {
+                    if(!active) e.target.style.color = '#fff';
+                    e.target.style.background = 'rgba(255,255,255,0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if(!active) e.target.style.color = 'rgba(255,255,255,0.85)';
+                    e.target.style.background = 'transparent';
                   }}
                 >
                   {link.label}
@@ -111,69 +125,68 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Actions: Quote Button + Hamburger */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <Link to="/quote" className="btn-primary" style={{ 
-              fontSize: '13px', 
-              padding: '10px 20px',
+              fontSize: '15px', 
+              fontWeight: 700,
+              padding: '12px 28px',
               display: window.innerWidth < 375 && !scrolled ? 'none' : 'flex' 
             }}>
-              Quote
+              Get Quote
             </Link>
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="hamburger-btn"
               style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
                 color: '#fff',
-                padding: '8px',
-                borderRadius: '8px',
+                padding: '12px',
+                borderRadius: '10px',
                 cursor: 'pointer',
               }}
             >
               {mobileOpen
-                ? <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-                : <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                ? <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                : <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
               }
             </button>
           </div>
         </div>
 
-        {/* 3. Animated Mobile Menu */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div 
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               style={{ 
                 background: '#071528', 
-                borderTop: '1px solid rgba(255,255,255,0.08)',
+                borderTop: '1px solid rgba(255,255,255,0.1)',
                 overflow: 'hidden'
               }}
             >
-              <div className="container" style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="container" style={{ padding: '30px 24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {NAV_LINKS.map((link) => (
                   <Link
                     key={link.href}
                     to={link.href}
                     style={{
-                      padding: '14px 16px',
-                      borderRadius: '10px',
-                      fontSize: '15px',
-                      fontWeight: 600,
-                      color: pathname === link.href ? '#F97316' : 'rgba(255,255,255,0.8)',
-                      background: pathname === link.href ? 'rgba(249,115,22,0.1)' : 'rgba(255,255,255,0.03)',
+                      padding: '18px 20px',
+                      borderRadius: '12px',
+                      fontSize: '18px',
+                      fontWeight: 700,
+                      color: pathname === link.href ? '#F97316' : 'rgba(255,255,255,0.9)',
+                      background: pathname === link.href ? 'rgba(249,115,22,0.12)' : 'rgba(255,255,255,0.04)',
                       textDecoration: 'none',
                     }}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <Link to="/quote" className="btn-primary" style={{ marginTop: '12px', justifyContent: 'center', padding: '16px' }}>
+                <Link to="/quote" className="btn-primary" style={{ marginTop: '20px', justifyContent: 'center', padding: '20px', fontSize: '18px' }}>
                   Get a Free Quote →
                 </Link>
               </div>
@@ -182,10 +195,9 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
 
-      {/* Responsive Breakpoints */}
       <style>{`
-        @media (max-width: 960px) { .desktop-nav { display: none !important; } }
-        @media (min-width: 961px) { .hamburger-btn { display: none !important; } }
+        @media (max-width: 1100px) { .desktop-nav { display: none !important; } }
+        @media (min-width: 1101px) { .hamburger-btn { display: none !important; } }
       `}</style>
     </>
   )

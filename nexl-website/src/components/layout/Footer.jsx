@@ -63,7 +63,7 @@ export default function Footer() {
             </div>
             
             <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'rgba(255,255,255,0.4)', marginBottom: '24px', maxWidth: '300px' }}>
-              Your trusted global freight partner — delivering excellence across sea, air, and land since inception.
+              hi da ravi
             </p>
             
             <div style={{ display: 'flex', gap: '10px' }}>
